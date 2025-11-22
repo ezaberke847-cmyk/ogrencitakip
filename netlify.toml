@@ -1,0 +1,210 @@
+# Netlify Configuration File
+# Professional setup for SPA (Single Page Application) with enhanced optimization
+
+[build]
+  # Publish directory - current directory
+  publish = "."
+  
+  # Build command (uncomment if needed)
+  # command = "npm run build"
+  
+  # Environment variables during build (example)
+  # [build.environment]
+  #   NODE_VERSION = "18"
+  #   NPM_VERSION = "9"
+
+[build.environment]
+  # Node.js version for build
+  NODE_VERSION = "18"
+  
+  # Enable Node.js polyfills for better compatibility
+  NODE_ENV = "production"
+  
+  # Cache configuration for dependencies
+  # NETLIFY_CACHE_DIR = ".netlify/cache"
+
+# Context-specific configurations
+[context.production]
+  # Production-specific environment variables
+  [context.production.environment]
+    NODE_ENV = "production"
+    # Add production-specific variables here
+
+[context.deploy-preview]
+  # Deploy preview specific settings
+  [context.deploy-preview.environment]
+    NODE_ENV = "development"
+    # Preview-specific variables
+
+[context.branch-deploy]
+  # Branch deploy specific settings
+  [context.branch-deploy.environment]
+    NODE_ENV = "development"
+
+# Redirect configuration for Single Page Applications (SPA)
+# Comprehensive redirect rules for client-side routing
+[[redirects]]
+  # Main SPA redirect - catch all routes and serve index.html
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
+  conditions = {Language = ["en"], Country = ["US"]}
+
+# Additional redirects for common use cases
+[[redirects]]
+  # Redirect for trailing slashes - remove trailing slashes
+  from = "/*/"
+  to = "/:splat"
+  status = 301
+
+[[redirects]]
+  # Security headers and caching for static assets
+  from = "/assets/*"
+  to = "/assets/:splat"
+  status = 200
+  headers = {X-Frame-Options = "DENY", Cache-Control = "public, max-age=31536000, immutable"}
+
+[[redirects]]
+  # API proxy example (uncomment and modify as needed)
+  # from = "/api/*"
+  # to = "https://api.example.com/:splat"
+  # status = 200
+  # force = true
+
+# Security headers configuration
+[[headers]]
+  # Apply security headers to all paths
+  for = "/*"
+  
+  [headers.values]
+    # Basic security headers
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    
+    # Content Security Policy (modify according to your needs)
+    Content-Security-Policy = """
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' https://cdn.example.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
+      img-src 'self' data: https:;
+      connect-src 'self' https://api.example.com;
+      frame-ancestors 'none';
+    """
+    
+    # CORS headers
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    
+    # Caching for HTML files
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  # Specific headers for static assets
+  for = "/assets/*"
+  
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    X-Cache = "HIT"
+
+[[headers]]
+  # Headers for CSS and JS files
+  for = "/*.css"
+  
+  [headers.values]
+    Content-Type = "text/css; charset=utf-8"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.js"
+  
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Environment variables (sensitive data should be set in Netlify UI)
+[context.production.environment]
+  # Example environment variables
+  # API_URL = "https://api.production.com"
+  # SENTRY_DSN = "your-sentry-dsn"
+
+[context.development.environment]
+  # Development environment variables
+  # API_URL = "https://api.staging.com"
+  # DEBUG = "true"
+
+# Plugin configurations (if using Netlify plugins)
+# [[plugins]]
+#   package = "@netlify/plugin-sitemap"
+# 
+#   [plugins.inputs]
+#     baseUrl = "https://yoursite.com"
+#     pretty = true
+
+# Edge functions configuration (advanced feature)
+# [[edge_functions]]
+#   path = "/api/*"
+#   function = "api-proxy"
+
+# Image CDN configuration (if using Netlify Image CDN)
+# [images]
+#   remote_images = ["https://example.com/images/*"]
+
+# Functions configuration (serverless functions)
+# [functions]
+#   directory = "./netlify/functions/"
+#   
+#   # Node.js version for functions
+#   node_bundler = "esbuild"
+#   
+#   # External node modules
+#   external_node_modules = ["pg", "axios"]
+
+# Processing configurations
+[processing]
+  # CSS optimization
+  css = { bundle = true, minify = true }
+  
+  # HTML optimization
+  html = { pretty_urls = true }
+  
+  # JS optimization
+  js = { bundle = true, minify = true }
+  
+  # Image optimization
+  images = { compress = true }
+
+# Dev configuration
+[dev]
+  # Local development settings
+  port = 8888
+  publish = "dist"
+  
+  # Proxy settings for local development
+  # [[dev.proxy]]
+  #   from = "/api/*"
+  #   to = "http://localhost:3001/api/:splat"
+
+# Analytics and monitoring
+# [analytics]
+#   enabled = true
+
+# Git LFS configuration (if using large files)
+# [lfs]
+#   enabled = true
+
+# Environment variable management
+# [environment]
+#   NODE_ENV = "production"
+
+# Custom snippets (advanced)
+# [[snippets]]
+#   title = "Security Headers"
+#   content = """
+#     add_header X-Frame-Options "DENY" always;
+#     add_header X-Content-Type-Options "nosniff" always;
+#   """

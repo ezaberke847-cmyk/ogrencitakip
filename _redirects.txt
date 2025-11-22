@@ -1,0 +1,274 @@
+# Netlify Redirects Configuration
+# Comprehensive redirects file for professional web deployment
+# Created with SEO, security, and user experience best practices
+
+# ========================
+# BASIC REDIRECTS
+# ========================
+
+# Homepage redirect with 200 status (rewrite)
+/*    /index.html   200
+
+# ========================
+# FORCE HTTPS & WWW
+# ========================
+
+# Force HTTPS
+http://example.com/*    https://example.com/:splat    301!
+http://www.example.com/*    https://www.example.com/:splat    301!
+
+# Force WWW (choose one option based on preference)
+
+# Option 1: Force www
+https://example.com/*    https://www.example.com/:splat    301!
+# Option 2: Remove www (uncomment to use instead)
+# https://www.example.com/*    https://example.com/:splat    301!
+
+# ========================
+# TRAILING SLASH HANDLING
+# ========================
+
+# Option 1: Add trailing slashes to all URLs
+/*    /:splat/    301
+# Option 2: Remove trailing slashes (uncomment to use instead)
+# /*/    /:splat    301
+
+# ========================
+# COMMON PAGE REDIRECTS
+# ========================
+
+# Homepage variations to main domain
+/Home    /    301
+/Homepage    /    301
+/Index    /    301
+
+# Common page redirects (example structure)
+/About-Us    /about    301
+/Contact-Us    /contact    301
+/Products    /services    301
+/Services    /services    301
+/Portfolio    /work    301
+/Work    /portfolio    301
+
+# ========================
+# SEO & CONTENT MIGRATION
+# ========================
+
+# Blog post migrations (example)
+/blog/old-post-title    /blog/new-post-title    301
+/articles/*    /blog/:splat    301
+/news/*    /blog/:splat    301
+
+# Category/tag migrations
+/category/technology    /blog/categories/tech    301
+/tag/javascript    /blog/tags/javascript    301
+
+# ========================
+# SECURITY & PRIVACY
+# ========================
+
+# Block suspicious paths
+/.env    /404.html    404
+/.git/*    /404.html    404
+/.htaccess    /404.html    404
+/backup/*    /404.html    404
+/admin/*    /404.html    404
+/phpmyadmin/*    /404.html    404
+/wp-admin/*    /404.html    404
+/wp-login.php    /404.html    404
+
+# ========================
+# FILE EXTENSION HANDLING
+# ========================
+
+# Remove .html extensions
+/*.html    /:splat    301
+
+# Remove .php extensions
+/*.php    /:splat    301
+
+# Remove .htm extensions
+/*.htm    /:splat    301
+
+# ========================
+# API & SERVICE REDIRECTS
+# ========================
+
+# API versioning
+/api/v1/*    /api/v2/:splat    301
+/old-api/*    /api/:splat    301
+
+# Service endpoints
+/feed    /rss.xml    200
+/rss    /rss.xml    200
+/sitemap    /sitemap.xml    200
+/robots    /robots.txt    200
+
+# ========================
+# INTERNATIONALIZATION
+# ========================
+
+# Language redirects (example)
+/en/*    /:splat    200
+/fr/*    /fr/:splat    200
+/es/*    /es/:splat    200
+/de/*    /de/:splat    200
+
+# Country-specific redirects
+/uk/*    /en/:splat    200
+/us/*    /en/:splat    200
+
+# ========================
+# ERROR HANDLING & FALLBACKS
+# ========================
+
+# Custom 404 handling
+/*    /404.html    404
+
+# SPA (Single Page Application) fallback
+/app/*    /index.html    200
+
+# ========================
+# ASSET & MEDIA HANDLING
+# ========================
+
+# CDN redirects for assets (example)
+/images/*    https://cdn.example.com/images/:splat    301
+/assets/*    https://cdn.example.com/assets/:splat    301
+/uploads/*    https://cdn.example.com/uploads/:splat    301
+
+# Legacy asset paths
+/img/*    /images/:splat    301
+/css/*    /assets/css/:splat    301
+/js/*    /assets/js/:splat    301
+
+# ========================
+# QUERY PARAMETER HANDLING
+# ========================
+
+# Remove specific query parameters
+/*?utm_source=:source&utm_medium=:medium&utm_campaign=:campaign    /:splat    301
+/*?fbclid=:id    /:splat    301
+/*?gclid=:id    /:splat    301
+
+# ========================
+# DOMAIN MIGRATIONS
+# ========================
+
+# Domain change redirects (replace with actual domains)
+https://old-domain.com/*    https://new-domain.com/:splat    301
+https://www.old-domain.com/*    https://www.new-domain.com/:splat    301
+
+# ========================
+# PLATFORM-SPECIFIC
+# ========================
+
+# Social media and external platforms
+/linkedin    https://linkedin.com/company/your-company    302
+/twitter    https://twitter.com/your-company    302
+/facebook    https://facebook.com/your-company    302
+/github    https://github.com/your-company    302
+/youtube    https://youtube.com/c/your-company    302
+
+# ========================
+# PERFORMANCE OPTIMIZATIONS
+# ========================
+
+# Cache control for static assets
+/assets/*    /assets/:splat    200!    Cache-Control: public, max-age=31536000
+/images/*    /images/:splat    200!    Cache-Control: public, max-age=31536000
+/fonts/*    /fonts/:splat    200!    Cache-Control: public, max-age=31536000
+
+# No cache for HTML files
+/*.html    /:splat.html    200!    Cache-Control: no-cache
+
+# ========================
+# MAINTENANCE & TESTING
+# ========================
+
+# Maintenance mode (uncomment when needed)
+# /*    /maintenance.html    503
+
+# A/B testing routes
+# /variant-a    /    200
+# /variant-b    /    200
+
+# ========================
+# CUSTOM BUSINESS RULES
+# ========================
+
+# Product redirects (examples)
+/old-product-name    /products/new-product-name    301
+/pricing-2023    /pricing    301
+/sale    /promotions/special-offer    301
+
+# Event redirects
+/event-2023    /events/archive/2023    301
+/webinar-registration    /webinars/upcoming    301
+
+# ========================
+# LEGAL & COMPLIANCE
+# ========================
+
+# Privacy policy updates
+/privacy-policy-old    /privacy-policy    301
+/terms-old    /terms-of-service    301
+
+# GDPR compliance
+/data-request    /contact?subject=data-request    301
+/delete-account    /settings/account-deletion    301
+
+# ========================
+# DEBUGGING & MONITORING
+# ========================
+
+# Health check endpoints
+/health    /api/health    200
+/status    /api/status    200
+/ready    /api/ready    200
+/live    /api/live    200
+
+# ========================
+# HEADERS & CUSTOM RULES
+# ========================
+
+# Security headers
+/*
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# CORS for specific paths
+/api/*
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+  Access-Control-Allow-Headers: Content-Type, Authorization
+
+# ========================
+# FALLBACK & CATCH-ALL
+# ========================
+
+# Final catch-all for SPA routing
+/*    /index.html    200
+
+# ========================
+# CONFIGURATION NOTES
+# ========================
+
+# Status Code Legend:
+# 200 = Rewrite (URL mask)
+# 301 = Permanent redirect
+# 302 = Temporary redirect
+# 404 = Not found
+# 503 = Service unavailable
+
+# Splat Reference:
+# :splat = matches any number of path segments
+# :splat* = matches including query parameters
+
+# Force redirects with ! suffix
+# Example: 301! = forced redirect even if original exists
+
+# This configuration should be reviewed and customized
+# for your specific application requirements.

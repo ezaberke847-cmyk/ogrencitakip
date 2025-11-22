@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yönetici Paneli - Öğrenci Takip Sistemi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <header class="dashboard-header">
+            <h1>👨‍💼 YÖNETİCİ PANELİ</h1>
+            <div class="user-info">
+                <span id="adminName">Hoş Geldiniz</span>
+                <button onclick="logout()" class="logout-btn">Çıkış</button>
+            </div>
+        </header>
+
+        <!-- Sistem Özet Kartları -->
+        <div class="summary-cards">
+            <div class="summary-card">
+                <div class="summary-icon">👨‍🏫</div>
+                <div class="summary-info">
+                    <h3 id="toplamOgretmen">0</h3>
+                    <p>Toplam Öğretmen</p>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">👨‍🎓</div>
+                <div class="summary-info">
+                    <h3 id="toplamOgrenci">0</h3>
+                    <p>Toplam Öğrenci</p>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">👨‍👩‍👧‍👦</div>
+                <div class="summary-info">
+                    <h3 id="toplamVeli">0</h3>
+                    <p>Toplam Veli</p>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">📊</div>
+                <div class="summary-info">
+                    <h3 id="toplamKayit">0</h3>
+                    <p>Toplam Kayıt</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modüller Grid -->
+        <div class="modules-grid">
+            <div class="module-card" onclick="openKullaniciYonetimi()">
+                <div class="module-icon">👥</div>
+                <h3>Kullanıcı Yönetimi</h3>
+                <p>Öğretmen ekle/düzenle</p>
+            </div>
+            <div class="module-card" onclick="openIletisim()">
+                <div class="module-icon">💬</div>
+                <h3>İletişim</h3>
+                <p>Öğretmenlerle mesajlaş</p>
+            </div>
+            <div class="module-card" onclick="openSistemIstatistikleri()">
+                <div class="module-icon">📈</div>
+                <h3>Sistem İstatistikleri</h3>
+                <p>Genel sistem raporları</p>
+            </div>
+            <div class="module-card" onclick="openSinifGorunumleri()">
+                <div class="module-icon">🏫</div>
+                <h3>Sınıf Görünümleri</h3>
+                <p>Tüm sınıfları görüntüle</p>
+            </div>
+        </div>
+
+        <!-- Son Aktiviteler -->
+        <div class="dashboard-section">
+            <h2>📋 Son Aktiviteler</h2>
+            <div id="sonAktiviteler" class="aktivite-listesi">
+                <!-- Aktiviteler buraya eklenecek -->
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Programı Hazırlayan: <strong>EMİN DEMİR</strong></p>
+        </div>
+    </div>
+
+    <!-- Kullanıcı Yönetimi Modal -->
+    <div id="kullaniciYonetimiModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeKullaniciYonetimiModal()">&times;</span>
+            <h2>👥 Kullanıcı Yönetimi</h2>
+            
+            <div class="modal-actions">
+                <button onclick="openOgretmenEkleModal()" class="submit-btn">➕ Yeni Öğretmen Ekle</button>
+            </div>
+
+            <div class="ogretmen-listesi">
+                <h3>📋 Mevcut Öğretmenler</h3>
+                <div id="ogretmenListesi">
+                    <!-- Öğretmen listesi buraya eklenecek -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Öğretmen Ekle Modal -->
+    <div id="ogretmenEkleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOgretmenEkleModal()">&times;</span>
+            <h2>👨‍🏫 Yeni Öğretmen Ekle</h2>
+            
+            <form id="ogretmenEkleForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ogretmenAd">Ad *</label>
+                        <input type="text" id="ogretmenAd" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ogretmenSoyad">Soyad *</label>
+                        <input type="text" id="ogretmenSoyad" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ogretmenKullaniciAdi">Kullanıcı Adı *</label>
+                        <input type="text" id="ogretmenKullaniciAdi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ogretmenSifre">Şifre *</label>
+                        <input type="password" id="ogretmenSifre" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ogretmenSinif">Sınıf *</label>
+                        <select id="ogretmenSinif" required>
+                            <option value="">Sınıf seçin</option>
+                            <option value="1">1. Sınıf</option>
+                            <option value="2">2. Sınıf</option>
+                            <option value="3">3. Sınıf</option>
+                            <option value="4">4. Sınıf</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ogretmenSube">Şube *</label>
+                        <select id="ogretmenSube" required>
+                            <option value="">Şube seçin</option>
+                            <option value="A">A Şubesi</option>
+                            <option value="B">B Şubesi</option>
+                            <option value="C">C Şubesi</option>
+                            <option value="D">D Şubesi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" onclick="closeOgretmenEkleModal()" class="cancel-btn">İptal</button>
+                    <button type="submit" class="submit-btn">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- İletişim Modal -->
+    <div id="iletisimModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeIletisimModal()">&times;</span>
+            <h2>💬 Öğretmenlerle İletişim</h2>
+            
+            <div class="mesajlasma-paneli">
+                <div class="ogretmen-listesi">
+                    <h3>👨‍🏫 Öğretmenler</h3>
+                    <div id="iletisimOgretmenListesi">
+                        <!-- Öğretmen listesi buraya eklenecek -->
+                    </div>
+                </div>
+                
+                <div class="mesajlasma-alani">
+                    <div id="mesajGoruntuleme">
+                        <div class="mesaj-secimi">
+                            <p>Lütfen bir öğretmen seçin</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mesaj-giris" style="display: none;" id="mesajGirisAlani">
+                        <textarea id="yeniMesaj" placeholder="Mesajınızı yazın..." rows="3"></textarea>
+                        <button onclick="mesajGonder()" class="submit-btn">Gönder</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sistem İstatistikleri Modal -->
+    <div id="sistemIstatistikleriModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSistemIstatistikleriModal()">&times;</span>
+            <h2>📈 Sistem İstatistikleri</h2>
+            
+            <div class="istatistikler-grid">
+                <div class="chart-wrapper">
+                    <h3>📊 Sınıf Bazlı Öğrenci Dağılımı</h3>
+                    <canvas id="sinifDagilimChart"></canvas>
+                </div>
+                
+                <div class="chart-wrapper">
+                    <h3>📚 Modül Kullanım İstatistikleri</h3>
+                    <canvas id="modulKullanimChart"></canvas>
+                </div>
+                
+                <div class="chart-wrapper">
+                    <h3>📅 Aylık Kayıt İstatistikleri</h3>
+                    <canvas id="aylikKayitChart"></canvas>
+                </div>
+                
+                <div class="chart-wrapper">
+                    <h3>🏆 Madalya Dağılımı</h3>
+                    <canvas id="madalyaDagilimChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sınıf Görünümleri Modal -->
+    <div id="sinifGorunumleriModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSinifGorunumleriModal()">&times;</span>
+            <h2>🏫 Sınıf Görünümleri</h2>
+            
+            <div class="sinif-filtreleri">
+                <select id="sinifSecimi" onchange="sinifSecildi()">
+                    <option value="">Tüm Sınıflar</option>
+                    <option value="1">1. Sınıf</option>
+                    <option value="2">2. Sınıf</option>
+                    <option value="3">3. Sınıf</option>
+                    <option value="4">4. Sınıf</option>
+                </select>
+                
+                <select id="subeSecimi" onchange="subeSecildi()">
+                    <option value="">Tüm Şubeler</option>
+                    <option value="A">A Şubesi</option>
+                    <option value="B">B Şubesi</option>
+                    <option value="C">C Şubesi</option>
+                    <option value="D">D Şubesi</option>
+                </select>
+            </div>
+            
+            <div id="sinifIcerikleri">
+                <!-- Sınıf içerikleri buraya eklenecek -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/firebase-config.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

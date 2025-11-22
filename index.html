@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öğrenci Takip Sistemi - Giriş</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo">
+                <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="40" cy="40" r="38" fill="#3498db" stroke="#2980b9" stroke-width="2"/>
+                    <path d="M25 35L35 45L55 25" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="40" cy="40" r="15" stroke="white" stroke-width="2" fill="none"/>
+                </svg>
+            </div>
+            <h1>ÖĞRENCİ TAKİP SİSTEMİ</h1>
+            <p>Eğitim sürecinizi kolaylaştıran kapsamlı çözüm</p>
+        </div>
+        
+        <div class="login-options">
+            <button onclick="openLogin('admin')" class="login-btn admin-btn">
+                <div class="btn-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 15C15.3137 15 18 12.3137 18 9C18 5.68629 15.3137 3 12 3C8.68629 3 6 5.68629 6 9C6 12.3137 8.68629 15 12 15Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M19 21V19C19 17.9391 18.5786 16.9217 17.8284 16.1716C17.0783 15.4214 16.0609 15 15 15H9C7.93913 15 6.92172 15.4214 6.17157 16.1716C5.42143 16.9217 5 17.9391 5 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 15V19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M10 11H14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="btn-text">
+                    <span class="btn-title">YÖNETİCİ GİRİŞİ</span>
+                    <span class="btn-desc">Sistem yönetimi ve ayarlar</span>
+                </div>
+            </button>
+            <button onclick="openLogin('ogretmen')" class="login-btn teacher-btn">
+                <div class="btn-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M3 3L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M9 9L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M15 9L9 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="btn-text">
+                    <span class="btn-title">ÖĞRETMEN GİRİŞİ</span>
+                    <span class="btn-desc">Ders ve öğrenci yönetimi</span>
+                </div>
+            </button>
+            <button onclick="openLogin('veli')" class="login-btn parent-btn">
+                <div class="btn-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="btn-text">
+                    <span class="btn-title">VELİ GİRİŞİ</span>
+                    <span class="btn-desc">Öğrenci takibi ve bilgiler</span>
+                </div>
+            </button>
+        </div>
+
+        <!-- Giriş Modal -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Giriş Yap</h2>
+                    <span class="close">&times;</span>
+                </div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Kullanıcı Adı:</label>
+                        <input type="text" id="username" required>
+                        <span class="input-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 10C11.6569 10 13 8.65685 13 7C13 5.34315 11.6569 4 10 4C8.34315 4 7 5.34315 7 7C7 8.65685 8.34315 10 10 10Z" stroke="#7f8c8d" stroke-width="1.5"/>
+                                <path d="M15 16C15 13.7909 12.7614 12 10 12C7.23858 12 5 13.7909 5 16" stroke="#7f8c8d" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Şifre:</label>
+                        <input type="password" id="password" required>
+                        <span class="input-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="3" y="9" width="14" height="8" rx="2" stroke="#7f8c8d" stroke-width="1.5"/>
+                                <path d="M6 9V6C6 3.79086 7.79086 2 10 2C12.2091 2 14 3.79086 14 6V9" stroke="#7f8c8d" stroke-width="1.5"/>
+                                <circle cx="10" cy="13" r="1" fill="#7f8c8d"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="rememberMe">
+                            <span class="checkmark"></span>
+                            Beni Hatırla
+                        </label>
+                        <a href="#" class="forgot-password">Şifremi Unuttum</a>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <span>GİRİŞ YAP</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 10H16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M13 7L16 10L13 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </form>
+                <div class="modal-footer">
+                    <p>Hesabınız yok mu? <a href="#" class="register-link">Hemen Kaydolun</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="system-info">
+            <div class="info-card">
+                <h3>Güvenli</h3>
+                <p>Verileriniz şifrelenmiş olarak saklanır</p>
+            </div>
+            <div class="info-card">
+                <h3>Kolay</h3>
+                <p>Kullanıcı dostu arayüz ile kolay erişim</p>
+            </div>
+            <div class="info-card">
+                <h3>Hızlı</h3>
+                <p>Anlık veri güncelleme ve hızlı erişim</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Programı Hazırlayan: <strong>EMİN DEMİR</strong></p>
+            <p class="copyright">© 2023 Tüm Hakları Saklıdır</p>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öğretmen Paneli</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <h1>ÖĞRETMEN PANELİ</h1>
+        <div class="user-menu">
+            <span id="teacherWelcome">Hoş Geldiniz</span>
+            <button onclick="logout()" class="logout-btn">Çıkış</button>
+        </div>
+    </header>
+
+    <!-- Ana İçerik -->
+    <main class="dashboard-main">
+        <!-- Dashboard İstatistikleri -->
+        <section class="dashboard-section">
+            <h2>📊 Sınıf İstatistikleri ve Grafikler</h2>
+            
+            <!-- Özet Kartları -->
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="summary-icon">👨‍🎓</div>
+                    <div class="summary-info">
+                        <h3 id="toplamOgrenci">0</h3>
+                        <p>Toplam Öğrenci</p>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">🏆</div>
+                    <div class="summary-info">
+                        <h3 id="toplamMadalya">0</h3>
+                        <p>Toplam Madalya</p>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">⭐</div>
+                    <div class="summary-info">
+                        <h3 id="ortalamaPuan">0</h3>
+                        <p>Ortalama Puan</p>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">📚</div>
+                    <div class="summary-info">
+                        <h3 id="toplamKitap">0</h3>
+                        <p>Toplam Kitap Sayfası</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grafikler -->
+            <div class="charts-container">
+                <div class="chart-wrapper">
+                    <h3>📖 Kitap Okuma (Aylık)</h3>
+                    <canvas id="kitapOkumaChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>📋 Ödev Puanı (Aylık)</h3>
+                    <canvas id="odevPuaniChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>📚 Soru Çözümü (Aylık)</h3>
+                    <canvas id="soruCozumuChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>📊 Deneme Sınavı (Yıllık)</h3>
+                    <canvas id="denemeChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>⭐ Yıldızlar (Aylık)</h3>
+                    <canvas id="yildizChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>⚠️ Olumsuz Davranış (Aylık)</h3>
+                    <canvas id="olumsuzDavranisChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modüller Grid -->
+        <section class="modules-section">
+            <h2>Modüller</h2>
+            <div class="modules-grid">
+                <!-- Öğrenci Kayıt -->
+                <div class="module-card" onclick="openOgrenciKayitModal()">
+                    <div class="module-icon">📝</div>
+                    <h3>Öğrenci Kaydı</h3>
+                    <p>Öğrenci ve veli kayıt işlemleri</p>
+                </div>
+
+                <!-- Ödev Puanı -->
+                <div class="module-card" onclick="openOdevPuaniModal()">
+                    <div class="module-icon">📋</div>
+                    <h3>Ödev Puanı</h3>
+                    <p>Günlük ödev puanlama</p>
+                </div>
+
+                <!-- Test Sonucu -->
+                <div class="module-card" onclick="openTestModal()">
+                    <div class="module-icon">✏️</div>
+                    <h3>Test Sonucu</h3>
+                    <p>Test sonuçlarını gir</p>
+                </div>
+
+                <!-- Test Geçmişi -->
+                <div class="module-card" onclick="openTestGecmisi()">
+                    <div class="module-icon">📊</div>
+                    <h3>Test Geçmişi</h3>
+                    <p>Test sonuç kayıtları</p>
+                </div>
+
+                <!-- Kitap Okuma -->
+                <div class="module-card" onclick="openKitapOkumaModal()">
+                    <div class="module-icon">📚</div>
+                    <h3>Kitap Okuma</h3>
+                    <p>Günlük kitap okuma takibi</p>
+                </div>
+
+                <!-- Okuma Geçmişi -->
+                <div class="module-card" onclick="openKitapOkumaGecmisi()">
+                    <div class="module-icon">📖</div>
+                    <h3>Okuma Geçmişi</h3>
+                    <p>Kitap okuma kayıtları</p>
+                </div>
+
+                <!-- Ödev Geçmişi -->
+                <div class="module-card" onclick="openOdevPuaniGecmisi()">
+                    <div class="module-icon">📝</div>
+                    <h3>Ödev Geçmişi</h3>
+                    <p>Ödev puanı kayıtları</p>
+                </div>
+
+                <!-- Yıldızlar -->
+                <div class="module-card" onclick="openYildizModal()">
+                    <div class="module-icon">⭐</div>
+                    <h3>Yıldızlar</h3>
+                    <p>Günlük yıldız verme</p>
+                </div>
+
+                <!-- Yıldız Geçmişi -->
+                <div class="module-card" onclick="openYildizGecmisi()">
+                    <div class="module-icon">📈</div>
+                    <h3>Yıldız Geçmişi</h3>
+                    <p>Yıldız kayıtları</p>
+                </div>
+
+                <!-- Olumsuz Davranış -->
+                <div class="module-card" onclick="openOlumsuzDavranisModal()">
+                    <div class="module-icon">⚠️</div>
+                    <h3>Olumsuz Davranış</h3>
+                    <p>Olumsuz davranış kayıtları</p>
+                </div>
+
+                <!-- Davranış Geçmişi -->
+                <div class="module-card" onclick="openOlumsuzDavranisGecmisi()">
+                    <div class="module-icon">📋</div>
+                    <h3>Davranış Geçmişi</h3>
+                    <p>Olumsuz davranış kayıtları</p>
+                </div>
+
+                <!-- Deneme Sınavı -->
+                <div class="module-card" onclick="openDenemeModal()">
+                    <div class="module-icon">📊</div>
+                    <h3>Deneme Sınavı</h3>
+                    <p>Deneme sınavı sonuçları</p>
+                </div>
+
+                <!-- Soru Çözümü -->
+                <div class="module-card" onclick="openSoruCozumuModal()">
+                    <div class="module-icon">📚</div>
+                    <h3>Soru Çözümü</h3>
+                    <p>Günlük soru çözüm takibi</p>
+                </div>
+
+                <!-- Soru Geçmişi -->
+                <div class="module-card" onclick="openSoruCozumuGecmisi()">
+                    <div class="module-icon">📊</div>
+                    <h3>Soru Geçmişi</h3>
+                    <p>Soru çözümü kayıtları</p>
+                </div>
+
+                <!-- Deneme Geçmişi -->
+                <div class="module-card" onclick="openDenemeGecmisi()">
+                    <div class="module-icon">📈</div>
+                    <h3>Deneme Geçmişi</h3>
+                    <p>Deneme sınavı kayıtları</p>
+                </div>
+
+                <!-- Kitap Okuma Sınavı -->
+                <div class="module-card" onclick="openKitapSinavModal()">
+                    <div class="module-icon">📖</div>
+                    <h3>Kitap Okuma Sınavı</h3>
+                    <p>Kitap sınavı sonuçları</p>
+                </div>
+
+                <!-- Kitap Sınav Geçmişi -->
+                <div class="module-card" onclick="openKitapSinavGecmisi()">
+                    <div class="module-icon">📚</div>
+                    <h3>Kitap Sınav Geçmişi</h3>
+                    <p>Kitap sınavı kayıtları</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Öğrenci Listesi -->
+        <section class="students-section">
+            <div class="section-header">
+                <h2>🏆 Öğrenci Listesi ve Sıralama</h2>
+                <div class="header-actions">
+                    <button onclick="tumOgrencilerinPuanlariniHesapla()" class="calculate-btn">
+                        🔄 Tüm Puanları Hesapla
+                    </button>
+                    <div class="sorting-options">
+                        <button onclick="sortOgrenciler('puan')" class="sort-btn active">Puana Göre</button>
+                        <button onclick="sortOgrenciler('madalya')" class="sort-btn">Madalyaya Göre</button>
+                        <button onclick="sortOgrenciler('isim')" class="sort-btn">İsme Göre</button>
+                        <button onclick="sortOgrenciler('numara')" class="sort-btn">Numaraya Göre</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="ogrenciListesi" class="students-grid">
+                <!-- Öğrenci kartları buraya dinamik olarak eklenecek -->
+            </div>
+        </section>
+    </main>
+
+    <!-- MODALLAR -->
+    
+    <!-- Öğrenci Detay Modal -->
+    <div id="ogrenciDetayModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOgrenciDetayModal()">&times;</span>
+            <h2>📊 Öğrenci Detaylı Görünüm</h2>
+            <div id="ogrenciDetayIcerik">
+                <!-- Detay içeriği buraya eklenecek -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Öğrenci Kayıt Modal -->
+    <div id="ogrenciKayitModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOgrenciKayitModal()">&times;</span>
+            <h2>Öğrenci ve Veli Kaydı</h2>
+            <form id="ogrenciKayitForm">
+                <div class="form-group">
+                    <label for="ogrenciAdi">Öğrenci Adı:</label>
+                    <input type="text" id="ogrenciAdi" required>
+                </div>
+                <div class="form-group">
+                    <label for="ogrenciSoyadi">Öğrenci Soyadı:</label>
+                    <input type="text" id="ogrenciSoyadi" required>
+                </div>
+                <div class="form-group">
+                    <label for="ogrenciNo">Öğrenci Numarası:</label>
+                    <input type="text" id="ogrenciNo" required>
+                </div>
+                <div class="form-group">
+                    <label for="ogrenciFoto">Öğrenci Fotoğrafı (URL):</label>
+                    <input type="text" id="ogrenciFoto">
+                </div>
+
+                <h3>Veli Bilgileri</h3>
+                <div class="form-group">
+                    <label for="veliAdi">Veli Adı:</label>
+                    <input type="text" id="veliAdi" required>
+                </div>
+                <div class="form-group">
+                    <label for="veliSoyadi">Veli Soyadı:</label>
+                    <input type="text" id="veliSoyadi" required>
+                </div>
+                <div class="form-group">
+                    <label for="veliKullaniciAdi">Veli Kullanıcı Adı:</label>
+                    <input type="text" id="veliKullaniciAdi" required>
+                </div>
+                <div class="form-group">
+                    <label for="veliSifre">Veli Şifre:</label>
+                    <input type="password" id="veliSifre" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Kaydet</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Öğrenci Düzenleme Modal -->
+    <div id="ogrenciDuzenleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOgrenciDuzenleModal()">&times;</span>
+            <h2>✏️ Öğrenci Düzenle</h2>
+            
+            <form id="ogrenciDuzenleForm">
+                <input type="hidden" id="duzenleOgrenciId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="duzenleOgrenciAdi">Öğrenci Adı *</label>
+                        <input type="text" id="duzenleOgrenciAdi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="duzenleOgrenciSoyadi">Öğrenci Soyadı *</label>
+                        <input type="text" id="duzenleOgrenciSoyadi" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="duzenleOgrenciNo">Öğrenci Numarası *</label>
+                        <input type="text" id="duzenleOgrenciNo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="duzenleOgrenciFoto">Fotoğraf URL</label>
+                        <input type="text" id="duzenleOgrenciFoto" placeholder="https://...">
+                    </div>
+                </div>
+
+                <h3>👨‍👩‍👧‍👦 Veli Bilgileri</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="duzenleVeliAdi">Veli Adı *</label>
+                        <input type="text" id="duzenleVeliAdi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="duzenleVeliSoyadi">Veli Soyadı *</label>
+                        <input type="text" id="duzenleVeliSoyadi" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="duzenleVeliTelefon">Telefon *</label>
+                        <input type="tel" id="duzenleVeliTelefon" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="duzenleVeliYakinlik">Yakınlık *</label>
+                        <select id="duzenleVeliYakinlik" required>
+                            <option value="">Seçiniz</option>
+                            <option value="anne">Anne</option>
+                            <option value="baba">Baba</option>
+                            <option value="veli">Diğer Veli</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" onclick="closeOgrenciDuzenleModal()" class="cancel-btn">İptal</button>
+                    <button type="submit" class="submit-btn">Güncelle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Kitap Okuma Modal -->
+    <div id="kitapOkumaModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeKitapOkumaModal()">&times;</span>
+            <h2>📚 Kitap Okuma Kaydı</h2>
+            
+            <div class="form-group">
+                <label for="kitapOgrenciSelect">Öğrenci Seçin *</label>
+                <select id="kitapOgrenciSelect" required>
+                    <option value="">Öğrenci seçin...</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="kitapTarih">Tarih *</label>
+                    <input type="date" id="kitapTarih" required>
+                </div>
+                <div class="form-group">
+                    <label for="kitapSayfaSayisi">Okunan Sayfa Sayısı</label>
+                    <input type="number" id="kitapSayfaSayisi" min="0" placeholder="Sayfa sayısı girin">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="kitapOkunmadi"> Değer girilmedi (Öğrenci okumadı)
+                </label>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" onclick="closeKitapOkumaModal()" class="cancel-btn">İptal</button>
+                <button onclick="kitapOkumaKaydet()" class="submit-btn">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kitap Okuma Kayıt Listesi Modal -->
+    <div id="kitapKayitListeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeKitapKayitListeModal()">&times;</span>
+            <h2>📖 Kitap Okuma Geçmişi</h2>
+            <div id="kitapKayitListesi">
+                <!-- Kayıtlar buraya eklenecek -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Ödev Puanlama Modal -->
+    <div id="odevPuaniModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOdevPuaniModal()">&times;</span>
+            <h2>📋 Ödev Puanı</h2>
+            
+            <div class="form-group">
+                <label for="odevOgrenciSelect">Öğrenci Seçin *</label>
+                <select id="odevOgrenciSelect" required>
+                    <option value="">Öğrenci seçin...</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="odevTarih">Tarih *</label>
+                    <input type="date" id="odevTarih" required>
+                </div>
+                <div class="form-group">
+                    <label for="odevPuan">Puan</label>
+                    <select id="odevPuan">
+                        <option value="">Puan seçin</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="odevYapilmadi"> Değer girilmedi (Ödev yapılmadı)
+                </label>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" onclick="closeOdevPuaniModal()" class="cancel-btn">İptal</button>
+                <button onclick="odevPuaniKaydet()" class="submit-btn">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ödev Puanı Kayıt Listesi Modal -->
+    <div id="odevKayitListeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOdevKayitListeModal()">&times;</span>
+            <h2>📝 Ödev Puanı Geçmişi</h2>
+            <div id="odevKayitListesi">
+                <!-- Kayıtlar buraya eklenecek -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Modal -->
+    <div id="testModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTestModal()">&times;</span>
+            <h2>✏️ Test Sonucu</h2>
+            
+            <div class="form-group">
+                <label for="testOgrenciSelect">Öğrenci Seçin *</label>
+                <select id="testOgrenciSelect" required>
+                    <option value="">Öğrenci seçin...</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="testTarih">Tarih *</label>
+                    <input type="date" id="testTarih" required>
+                </div>
+                <div class="form-group">
+                    <label for="testBaslik">Test Başlığı</label>
+                    <input type="text" id="testBaslik" placeholder="Test konusu veya başlığı">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="testDogru">Doğru Sayısı *</label>
+                    <input type="number" id="testDogru" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="testYanlis">Yanlış Sayısı *</label>
+                    <input type="number" id="testYanlis" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="testBos">Boş Sayısı *</label>
+                    <input type="number" id="testBos" min="0" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="testToplamSoru">Toplam Soru Sayısı</label>
+                <input type="number" id="testToplamSoru" min="0" placeholder="Otomatik hesaplanır" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="testNet">Net</label>
+                <input type="text" id="testNet" readonly>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" onclick="closeTestModal()" class="cancel-btn">İptal</button>
+                <button onclick="testKaydet()" class="submit-btn">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Kayıt Listesi Modal -->
+    <div id="testKayitListeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTestKayitListeModal()">&times;</span>
+            <h2>📊 Test Geçmişi</h2>
+            <div id="testKayitListesi">
+                <!-- Kayıtlar buraya eklenecek -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Deneme Sınavı Modal -->
+    <div id="denemeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDenemeModal()">&times;</span>
+            <h2>📊 Deneme Sınavı Sonucu</h2>
+            
+            <div class="form-group">
+                <label for="denemeOgrenciSelect">Öğrenci Seçin *</label>
+                <select id="denemeOgrenciSelect" required>
+                    <option value="">Öğrenci seçin...</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="denemeTarih">Tarih *</label>
+                    <input type="date" id="denemeTarih" required>
+                </div>
+                <div class="form-group">
+                    <label for="denemeBaslik">Deneme Adı</label>
+                    <input type="text" id="denemeBaslik" placeholder="Deneme sınavı adı">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="denemeDogru">Doğru Sayısı *</label>
+                    <input type="number" id="denemeDogru" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="denemeYanlis">Yanlış Sayısı *</label>
+                    <input type="number" id="denemeYanlis" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="denemeBos">Boş Sayısı *</label>
+                    <input type="number" id="denemeBos" min="0" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="denemeToplamSoru">Toplam Soru Sayısı</label>
+                <input type="number" id="denemeToplamSoru" min="0" placeholder="Otomatik hesaplanır" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="denemeNet">Net</label>
+                <input type="text" id="denemeNet" readonly>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" onclick="closeDenemeModal()" class="cancel-btn">İptal</button>
+                <button onclick="denemeKaydet()" class="submit-btn">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deneme Kayıt Listesi Modal -->
+    <div id="denemeKayitListeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDenemeKayitListeModal()">&times;</span>
+            <h2>📈 Deneme Sınavı Geçmişi</h2>
+            <div id="denemeKayitListesi">
+                <!-- Kayıtlar buraya eklenecek -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Kitap Okuma Sınavı Modal -->
+    <div id="kitapSinavModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeKitapSinavModal()">&times;</span>
+            <h2>📖 Kitap Okuma Sınavı Sonucu</h2>
+            
+            <div class="form-group">
+                <label for="kitapSinavOgrenciSelect">Öğrenci Seçin *</label>
+                <select id="kitapSinavOgrenciSelect" required>
+                    <option value="">Öğrenci seçin...</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="kitapSinavTarih">Tarih *</label>
+                    <input type="date" id="kitapSinavTarih" required>
+                </div>
+                <div class="form-group">
+                    <label for="kitapSinavKitapAdi">Kitap Adı</label>
+                    <input type="text" id="kitapSinavKitapAdi" placeholder="Sınav yapılan kitabın adı">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="kitapSinavDogru">Doğru Sayısı *</label>
+                    <input type="number" id="kitapSinavDogru" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="kitapSinavYanlis">Yanlış Sayısı *</label>
+                    <input type="number" id="kitapSinavYanlis" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="kitapSinavBos">Boş Sayısı *</label>
+                    <input type="number" id="kitapSinavBos" min="0" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="kitapSinavToplamSoru">Toplam Soru Sayısı</label>
+                <input type="number" id="kitapSinavToplamSoru" min="0" placeholder="Otomatik hesaplanır" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="kitapSinavNet">Net</label>
+                <input type="text" id="kitapSinavNet" readonly>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" onclick="closeKitapSinavModal()" class="cancel-btn">İptal</button>
+                <button onclick="kitapSinavKaydet()" class="submit-btn">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kitap Okuma Sınavı Kayıt Listesi Modal -->
+    <div id="kitapSinavKayitListeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeKitapSinavKayitListeModal()">&times;</span>
+            <h2>📚 Kitap Okuma Sınavı Geçmişi</h2>
+            <div id="kitapSinavKayitListesi">
+                <!-- Kayıtlar buraya eklenecek -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Soru Çözümü Modal -->
+    <div id="soruCozumuModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSoruCozumuModal()">&times;</span>
+            <h2>📚 Soru Çözümü Kaydı</h2>
+            
+            <div class="form-group">
+                <label for="soruOgrenciSelect">Öğrenci Seçin *</label>
+                <select id="soruOgrenciSelect" required>
+                    <option value="">Öğrenci seçin...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="soruTarih">Tarih *</label>
+                <input type="date" id="soruTarih" required>
+            </div>
+
+            <h3>📝 Derslere Göre Soru Sayıları</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="soruTurkce">Türkçe</label>
+                    <input type="number" id="soruTurkce" min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="soruMatematik">Matematik</label>
+                    <input type="number" id="soruMatematik" min="0" value="0">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="soruHayatBilgisi">Hayat Bilgisi</label>
+                    <input type="number" id="soruHayatBilgisi" min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="soruFenBilgisi">Fen Bilgisi</label>
+                    <input type="number" id="soruFenBilgisi" min="0" value="0">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="soruSosyalBilgiler">Sosyal Bilgiler</label>
+                    <input type="number" id="soruSosyalBilgiler" min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="soruToplam">Toplam Soru</label>
+                    <input type="number" id="soruToplam" readonly>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" onclick="closeSoruCozumuModal()" class="cancel-btn">İptal</button>
+                <button onclick="soruCozumuKaydet()" class="submit-btn">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Soru Çözümü Kayıt Listesi Modal -->
+    <div id="soruKayitListeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSoruKayitListeModal()">&times;</span>
+            <h2>📊 Soru Çözümü Geçmişi</h2>
+            <div id="soruKayitListesi">
+                <!-- Kayıtlar buraya eklenecek -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Yıldızlar Modal -->
+    <div id="yildizModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeYildizModal()">&times;</span>
+            <h2>⭐ Yıldız Verme</h2>
+            
+            <div class="form-group">
+                <label for="yildizOgrenciSelect">Öğrenci Seçin *</label>
+                <select id="yildizOgrenciSelect" required>
+                    <option value="">Öğrenci seçin...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="yildizTarih">Tarih *</label>
+                <input type="date" id="yildizTarih" required>
+            </div>
+
+            <div class="form-group">
+                <label for="yildizSayisi">Yıldız Sayısı (0-100) *</label>
+                <input type="number" id="yildizSayisi" min="0" max="100" required>
+                <small>Maksimum 100 yıldız girebilirsiniz.</small>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" onclick="closeYildizModal()" class="cancel-btn">İptal</button>
+                <button onclick="yildizKaydet()" class="submit-btn">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Yıldızlar Kayıt Listesi Modal -->
+    <div id="yildizKayitListeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeYildizKayitListeModal()">&times;</span>
+            <h2>⭐ Yıldız Geçmişi</h2>
+            <div id="yildizKayitListesi">
+                <!-- Kayıtlar buraya eklenecek -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Olumsuz Davranış Modal -->
+    <div id="olumsuzDavranisModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOlumsuzDavranisModal()">&times;</span>
+            <h2>⚠️ Olumsuz Davranış Kaydı</h2>
+            
+            <div class="form-group">
+                <label for="olumsuzOgrenciSelect">Öğrenci Seçin *</label>
+                <select id="olumsuzOgrenciSelect" required>
+                    <option value="">Öğrenci seçin...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="olumsuzTarih">Tarih *</label>
+                <input type="date" id="olumsuzTarih" required>
+            </div>
+
+            <div class="form-group">
+                <label for="olumsuzAciklama">Davranış Açıklaması *</label>
+                <textarea id="olumsuzAciklama" rows="3" placeholder="Olumsuz davranışın açıklamasını yazın..." required></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" onclick="closeOlumsuzDavranisModal()" class="cancel-btn">İptal</button>
+                <button onclick="olumsuzDavranisKaydet()" class="submit-btn">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Olumsuz Davranış Kayıt Listesi Modal -->
+    <div id="olumsuzKayitListeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOlumsuzKayitListeModal()">&times;</span>
+            <h2>📋 Olumsuz Davranış Geçmişi</h2>
+            <div id="olumsuzKayitListesi">
+                <!-- Kayıtlar buraya eklenecek -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/firebase-config.js"></script>
+    <script src="js/ogretmen.js"></script>
+</body>
+</html>
