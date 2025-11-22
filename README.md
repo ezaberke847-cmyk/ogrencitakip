@@ -1,0 +1,2 @@
+# ogrencitakip
+karışlık
